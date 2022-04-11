@@ -92,6 +92,8 @@ class DJISDKNode
 {
 public:
   DJISDKNode(ros::NodeHandle& nh, ros::NodeHandle& nh_private);
+  inline bool isInitialized() {return _is_init;}
+
   ~DJISDKNode();
 
   enum TELEMETRY_TYPE
@@ -119,6 +121,9 @@ private:
   void cleanUpSubscribeFromFC();
   bool validateSerialDevice(LinuxSerialDevice* serialDevice);
   bool isM100();
+
+  // Status flag
+  bool _is_init = false;
 
   /*!
    * @note this function exists here instead of inside the callback function

@@ -44,10 +44,12 @@ DJISDKNode::DJISDKNode(ros::NodeHandle& nh, ros::NodeHandle& nh_private)
   if (!initVehicle(nh_private))
   {
     ROS_ERROR("Vehicle initialization failed");
+    _is_init = false;
   }
 
   else
   {
+    _is_init = true;
     if (!initServices(nh))
     {
       ROS_ERROR("initServices failed");
@@ -87,12 +89,12 @@ DJISDKNode::initVehicle(ros::NodeHandle& nh_private)
 {
   bool threadSupport = true;
   bool enable_advanced_sensing = false;
-
+/*
 #ifdef ADVANCED_SENSING
   enable_advanced_sensing = true;
   ROS_INFO("Advanced Sensing is Enabled on M210.");
 #endif
-
+*/
   //! @note currently does not work without thread support
   vehicle = new Vehicle(serial_device.c_str(), baud_rate, threadSupport, enable_advanced_sensing);
 
@@ -125,7 +127,7 @@ DJISDKNode::initVehicle(ros::NodeHandle& nh_private)
   }
 
 #ifdef ADVANCED_SENSING
-  vehicle->advancedSensing->setAcmDevicePath(acm_device.c_str());
+  //vehicle->advancedSensing->setAcmDevicePath(acm_device.c_str());
 #endif
 
   return true;

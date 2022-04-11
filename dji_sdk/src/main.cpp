@@ -18,9 +18,15 @@ int main(int argc, char **argv) {
 
   DJISDKNode* dji_sdk_node = new DJISDKNode(nh, nh_private);
 
+  if (!dji_sdk_node->isInitialized()) {
+    ROS_ERROR("Could not initialize the SDK. Exiting.");
+    delete dji_sdk_node;
+    return 0;
+  }
   ros::AsyncSpinner spinner(4); // Use 4 threads
   spinner.start();
   ros::waitForShutdown();
+  
 
   delete dji_sdk_node;
   dji_sdk_node = NULL;
